@@ -41,7 +41,9 @@ const PostsManager = () => {
   const [searchQuery, setSearchQuery] = useState<string>(queryParams.get("search") || "")
   const [selectedPost, setSelectedPost] = useState<Post | null>(null)
   const [sortBy, setSortBy] = useState<SortByOption>((queryParams.get("sortBy") as SortByOption) || "")
-  const [sortOrder, setSortOrder] = useState<SortOrderOption>((queryParams.get("sortOrder") as SortOrderOption) || "asc")
+  const [sortOrder, setSortOrder] = useState<SortOrderOption>(
+    (queryParams.get("sortOrder") as SortOrderOption) || "asc",
+  )
   const [showAddDialog, setShowAddDialog] = useState<boolean>(false)
   const [showEditDialog, setShowEditDialog] = useState<boolean>(false)
   const [newPost, setNewPost] = useState<NewPostState>({ title: "", body: "", userId: 1 })
@@ -97,17 +99,6 @@ const PostsManager = () => {
       .finally(() => {
         setLoading(false)
       })
-  }
-
-  // 태그 가져오기
-  const fetchTags = async (): Promise<void> => {
-    try {
-      const response = await fetch("/api/posts/tags")
-      const data: Tag[] = await response.json()
-      setTags(data)
-    } catch (error) {
-      console.error("태그 가져오기 오류:", error)
-    }
   }
 
   // 게시물 검색
@@ -283,7 +274,9 @@ const PostsManager = () => {
       const data = await response.json()
       setComments((prev) => ({
         ...prev,
-        [postId]: prev[postId].map((comment) => (comment.id === data.id ? {...data, likes: currentComment.likes + 1} : comment)),
+        [postId]: prev[postId].map((comment) =>
+          comment.id === data.id ? { ...data, likes: currentComment.likes + 1 } : comment,
+        ),
       }))
     } catch (error) {
       console.error("댓글 좋아요 오류:", error)
@@ -310,7 +303,16 @@ const PostsManager = () => {
   }
 
   useEffect(() => {
-    fetchTags()
+    const loadTags = async (): Promise<void> => {
+      try {
+        const response = await fetch("/api/posts/tags")
+        const data: Tag[] = await response.json()
+        setTags(data)
+      } catch (error) {
+        console.error("태그 가져오기 오류:", error)
+      }
+    }
+    loadTags()
   }, [])
 
   useEffect(() => {
@@ -320,6 +322,7 @@ const PostsManager = () => {
       fetchPosts()
     }
     updateURL()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [skip, limit, sortBy, sortOrder, selectedTag])
 
   useEffect(() => {
@@ -388,7 +391,10 @@ const PostsManager = () => {
               </div>
             </TableCell>
             <TableCell>
-              <div className="flex items-center space-x-2 cursor-pointer" onClick={() => post.author && openUserModal(post.author)}>
+              <div
+                className="flex items-center space-x-2 cursor-pointer"
+                onClick={() => post.author && openUserModal(post.author)}
+              >
                 <img src={post.author?.image} alt={post.author?.username} className="w-8 h-8 rounded-full" />
                 <span>{post.author?.username}</span>
               </div>
