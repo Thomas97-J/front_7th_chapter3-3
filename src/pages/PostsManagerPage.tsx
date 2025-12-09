@@ -1,7 +1,7 @@
 import { useEffect } from "react"
-import { useAtom } from "jotai"
+import { useAtom, useSetAtom } from "jotai"
 import { Plus } from "lucide-react"
-import { Button, Card, CardContent, CardHeader, CardTitle } from "../components"
+import { Button, Card, CardContent, CardHeader, CardTitle } from "@/components"
 import { SearchFilterBar } from "../components/posts/SearchFilterBar"
 import { PostTable } from "../components/posts/PostTable"
 import { PostFormDialog } from "../components/posts/PostFormDialog"
@@ -52,10 +52,10 @@ const PostsManager = () => {
 
   // Entity & Filter Atoms
   const [posts, setPosts] = useAtom(postsAtom)
-  const [total, setTotal] = useAtom(totalAtom)
+  const setTotal = useSetAtom(totalAtom)
   const [filterState, setFilterState] = useAtom(filterStateAtom)
   const [comments, setComments] = useAtom(commentsAtom)
-  const [tags, setTags] = useAtom(tagsAtom)
+  const setTags = useSetAtom(tagsAtom)
   const [loading, setLoading] = useAtom(loadingAtom)
 
   // Selection Atoms
@@ -192,7 +192,7 @@ const PostsManager = () => {
       setComments((prev) => ({
         ...prev,
         [updatedComment.postId]: prev[updatedComment.postId].map((comment) =>
-          comment.id === updatedComment.id ? updatedComment : comment
+          comment.id === updatedComment.id ? updatedComment : comment,
         ),
       }))
       setShowEditCommentDialog(false)
@@ -223,9 +223,7 @@ const PostsManager = () => {
       const likedComment = await likeCommentApi(id, currentComment.likes)
       setComments((prev) => ({
         ...prev,
-        [postId]: prev[postId].map((comment) =>
-          comment.id === likedComment.id ? likedComment : comment
-        ),
+        [postId]: prev[postId].map((comment) => (comment.id === likedComment.id ? likedComment : comment)),
       }))
     } catch (error) {
       console.error("댓글 좋아요 오류:", error)
@@ -313,12 +311,7 @@ const PostsManager = () => {
       </CardContent>
 
       {/* 게시물 추가 대화상자 */}
-      <PostFormDialog
-        open={showAddDialog}
-        onOpenChange={setShowAddDialog}
-        mode="create"
-        onSubmit={handleAddPost}
-      />
+      <PostFormDialog open={showAddDialog} onOpenChange={setShowAddDialog} mode="create" onSubmit={handleAddPost} />
 
       {/* 게시물 수정 대화상자 */}
       <PostFormDialog
