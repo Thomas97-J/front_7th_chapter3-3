@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useEffect } from "react"
 import { useAtom } from "jotai"
 import { Plus } from "lucide-react"
 import { Button, Card, CardContent, CardHeader, CardTitle } from "../components"
@@ -17,6 +17,15 @@ import {
   commentsAtom,
   tagsAtom,
   loadingAtom,
+  selectedPostAtom,
+  selectedCommentAtom,
+  selectedUserAtom,
+  showAddDialogAtom,
+  showEditDialogAtom,
+  showAddCommentDialogAtom,
+  showEditCommentDialogAtom,
+  showPostDetailDialogAtom,
+  showUserModalAtom,
 } from "../store"
 import {
   fetchPosts,
@@ -35,13 +44,13 @@ import {
 } from "../api/commentsApi"
 import { fetchUser } from "../api/usersApi"
 import { fetchTags as fetchTagsApi } from "../api/tagsApi"
-import type { Post, User, Comment } from "../types/api"
+import type { Post, User } from "../types/api"
 
 const PostsManager = () => {
   // URL 동기화
   useUrlSync()
 
-  // Atoms
+  // Entity & Filter Atoms
   const [posts, setPosts] = useAtom(postsAtom)
   const [total, setTotal] = useAtom(totalAtom)
   const [filterState, setFilterState] = useAtom(filterStateAtom)
@@ -49,18 +58,18 @@ const PostsManager = () => {
   const [tags, setTags] = useAtom(tagsAtom)
   const [loading, setLoading] = useAtom(loadingAtom)
 
-  // Dialog states (Priority 2에서 atoms로 전환 예정)
-  const [showAddDialog, setShowAddDialog] = useState<boolean>(false)
-  const [showEditDialog, setShowEditDialog] = useState<boolean>(false)
-  const [showAddCommentDialog, setShowAddCommentDialog] = useState<boolean>(false)
-  const [showEditCommentDialog, setShowEditCommentDialog] = useState<boolean>(false)
-  const [showPostDetailDialog, setShowPostDetailDialog] = useState<boolean>(false)
-  const [showUserModal, setShowUserModal] = useState<boolean>(false)
+  // Selection Atoms
+  const [selectedPost, setSelectedPost] = useAtom(selectedPostAtom)
+  const [selectedComment, setSelectedComment] = useAtom(selectedCommentAtom)
+  const [selectedUser, setSelectedUser] = useAtom(selectedUserAtom)
 
-  // Selected items (Priority 2에서 atoms로 전환 예정)
-  const [selectedPost, setSelectedPost] = useState<Post | null>(null)
-  const [selectedComment, setSelectedComment] = useState<Comment | null>(null)
-  const [selectedUser, setSelectedUser] = useState<User | null>(null)
+  // Dialog Atoms
+  const [showAddDialog, setShowAddDialog] = useAtom(showAddDialogAtom)
+  const [showEditDialog, setShowEditDialog] = useAtom(showEditDialogAtom)
+  const [showAddCommentDialog, setShowAddCommentDialog] = useAtom(showAddCommentDialogAtom)
+  const [showEditCommentDialog, setShowEditCommentDialog] = useAtom(showEditCommentDialogAtom)
+  const [showPostDetailDialog, setShowPostDetailDialog] = useAtom(showPostDetailDialogAtom)
+  const [showUserModal, setShowUserModal] = useAtom(showUserModalAtom)
 
   // Load posts
   const loadPosts = async (): Promise<void> => {
