@@ -1,12 +1,12 @@
+import { useAtom } from "jotai"
 import { Button } from "@/components"
 import { Plus, ThumbsUp, Edit2, Trash2 } from "lucide-react"
 import { HighlightedText } from "@/components/shared/HighlightedText"
+import { commentsAtom, filterStateAtom } from "@/store"
 import type { Comment } from "@/types/api"
 
 interface CommentListProps {
   postId: number
-  comments: Comment[]
-  searchQuery: string
   onAddComment: (postId: number) => void
   onEditComment: (comment: Comment) => void
   onDeleteComment: (id: number, postId: number) => void
@@ -15,13 +15,15 @@ interface CommentListProps {
 
 export const CommentList: React.FC<CommentListProps> = ({
   postId,
-  comments,
-  searchQuery,
   onAddComment,
   onEditComment,
   onDeleteComment,
   onLikeComment,
 }) => {
+  const [commentsState] = useAtom(commentsAtom)
+  const [filterState] = useAtom(filterStateAtom)
+
+  const comments = commentsState[postId] || []
   return (
     <div className="mt-2">
       {/* 헤더 */}
@@ -41,7 +43,7 @@ export const CommentList: React.FC<CommentListProps> = ({
             <div className="flex items-center space-x-2 overflow-hidden">
               <span className="font-medium truncate">{comment.user.username}:</span>
               <span className="truncate">
-                <HighlightedText text={comment.body} highlight={searchQuery} />
+                <HighlightedText text={comment.body} highlight={filterState.searchQuery} />
               </span>
             </div>
 

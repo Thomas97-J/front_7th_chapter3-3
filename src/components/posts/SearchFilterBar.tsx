@@ -1,32 +1,17 @@
 import { Search } from "lucide-react"
+import { useAtom } from "jotai"
 import { Input, Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components"
-import type { Tag, SortByOption, SortOrderOption } from "@/types/state"
+import { filterStateAtom, tagsAtom } from "@/store"
+import type { SortByOption, SortOrderOption } from "@/types/state"
 
 interface SearchFilterBarProps {
-  searchQuery: string
-  onSearchChange: (value: string) => void
   onSearch: () => void
-  tags: Tag[]
-  selectedTag: string
-  onTagChange: (tag: string) => void
-  sortBy: SortByOption
-  onSortByChange: (value: SortByOption) => void
-  sortOrder: SortOrderOption
-  onSortOrderChange: (value: SortOrderOption) => void
 }
 
-export const SearchFilterBar: React.FC<SearchFilterBarProps> = ({
-  searchQuery,
-  onSearchChange,
-  onSearch,
-  tags,
-  selectedTag,
-  onTagChange,
-  sortBy,
-  onSortByChange,
-  sortOrder,
-  onSortOrderChange,
-}) => {
+export const SearchFilterBar: React.FC<SearchFilterBarProps> = ({ onSearch }) => {
+  const [filterState, setFilterState] = useAtom(filterStateAtom)
+  const [tags] = useAtom(tagsAtom)
+
   const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>): void => {
     if (e.key === "Enter") {
       onSearch()
@@ -42,15 +27,18 @@ export const SearchFilterBar: React.FC<SearchFilterBarProps> = ({
           <Input
             placeholder="게시물 검색..."
             className="pl-8"
-            value={searchQuery}
-            onChange={(e) => onSearchChange(e.target.value)}
+            value={filterState.searchQuery}
+            onChange={(e) => setFilterState({ ...filterState, searchQuery: e.target.value })}
             onKeyPress={handleKeyPress}
           />
         </div>
       </div>
 
       {/* 태그 선택 */}
-      <Select value={selectedTag} onValueChange={onTagChange}>
+      <Select
+        value={filterState.selectedTag}
+        onValueChange={(tag) => setFilterState({ ...filterState, selectedTag: tag })}
+      >
         <SelectTrigger className="w-[180px]">
           <SelectValue placeholder="태그 선택" />
         </SelectTrigger>
@@ -65,7 +53,10 @@ export const SearchFilterBar: React.FC<SearchFilterBarProps> = ({
       </Select>
 
       {/* 정렬 기준 */}
-      <Select value={sortBy} onValueChange={(value) => onSortByChange(value as SortByOption)}>
+      <Select
+        value={filterState.sortBy}
+        onValueChange={(value) => setFilterState({ ...filterState, sortBy: value as SortByOption })}
+      >
         <SelectTrigger className="w-[180px]">
           <SelectValue placeholder="정렬 기준" />
         </SelectTrigger>
@@ -78,7 +69,10 @@ export const SearchFilterBar: React.FC<SearchFilterBarProps> = ({
       </Select>
 
       {/* 정렬 순서 */}
-      <Select value={sortOrder} onValueChange={(value) => onSortOrderChange(value as SortOrderOption)}>
+      <Select
+        value={filterState.sortOrder}
+        onValueChange={(value) => setFilterState({ ...filterState, sortOrder: value as SortOrderOption })}
+      >
         <SelectTrigger className="w-[180px]">
           <SelectValue placeholder="정렬 순서" />
         </SelectTrigger>

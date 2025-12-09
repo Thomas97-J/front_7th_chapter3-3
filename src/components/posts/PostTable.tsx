@@ -1,3 +1,4 @@
+import { useAtom } from "jotai"
 import {
   Table,
   TableBody,
@@ -9,11 +10,10 @@ import {
 } from "@/components"
 import { MessageSquare, Edit2, Trash2, ThumbsUp, ThumbsDown } from "lucide-react"
 import { HighlightedText } from "@/components/shared/HighlightedText"
+import { postsAtom, filterStateAtom } from "@/store"
 import type { Post, User } from "@/types/api"
 
 interface PostTableProps {
-  posts: Post[]
-  searchQuery: string
   onTagClick: (tag: string) => void
   onUserClick: (user: User) => void
   onViewDetail: (post: Post) => void
@@ -22,14 +22,14 @@ interface PostTableProps {
 }
 
 export const PostTable: React.FC<PostTableProps> = ({
-  posts,
-  searchQuery,
   onTagClick,
   onUserClick,
   onViewDetail,
   onEdit,
   onDelete,
 }) => {
+  const [posts] = useAtom(postsAtom)
+  const [filterState] = useAtom(filterStateAtom)
   return (
     <Table>
       <TableHeader>
@@ -50,7 +50,7 @@ export const PostTable: React.FC<PostTableProps> = ({
             <TableCell>
               <div className="space-y-1">
                 <div>
-                  <HighlightedText text={post.title} highlight={searchQuery} />
+                  <HighlightedText text={post.title} highlight={filterState.searchQuery} />
                 </div>
                 <div className="flex flex-wrap gap-1">
                   {post.tags?.map((tag) => (
