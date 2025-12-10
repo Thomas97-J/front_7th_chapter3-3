@@ -1,15 +1,7 @@
 import { useAtom } from "jotai"
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-  Button,
-} from "@/shared/ui"
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow, Button } from "@/shared/ui"
 import { MessageSquare, Edit2, Trash2, ThumbsUp, ThumbsDown } from "lucide-react"
-import { HighlightedText } from "@/components/shared/HighlightedText"
+import { HighlightedText } from "@/shared/ui/HighlightedText"
 import { postsAtom, filterStateAtom } from "@/store"
 import type { Post, User } from "@/types/api"
 
@@ -21,13 +13,7 @@ interface PostTableProps {
   onDelete: (id: number) => void
 }
 
-export const PostTable: React.FC<PostTableProps> = ({
-  onTagClick,
-  onUserClick,
-  onViewDetail,
-  onEdit,
-  onDelete,
-}) => {
+export const PostTable: React.FC<PostTableProps> = ({ onTagClick, onUserClick, onViewDetail, onEdit, onDelete }) => {
   const [posts] = useAtom(postsAtom)
   const [filterState] = useAtom(filterStateAtom)
   return (
