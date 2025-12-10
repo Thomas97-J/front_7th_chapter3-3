@@ -1,4 +1,4 @@
-import type { Post, User, PostsApiResponse, UsersApiResponse } from "@/types/api"
+import type { Post, PostsApiResponse, UsersApiResponse } from "@/types/api"
 
 /**
  * 게시물 목록 조회 (사용자 정보 포함)

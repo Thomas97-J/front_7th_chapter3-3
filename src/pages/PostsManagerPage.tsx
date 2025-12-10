@@ -34,16 +34,16 @@ import {
   createPost,
   updatePost as updatePostApi,
   deletePost as deletePostApi,
-} from "../api/postsApi"
+} from "../entities/post/api"
 import {
   fetchComments as fetchCommentsApi,
   createComment,
   updateComment as updateCommentApi,
   deleteComment as deleteCommentApi,
   likeComment as likeCommentApi,
-} from "../api/commentsApi"
-import { fetchUser } from "../api/usersApi"
-import { fetchTags as fetchTagsApi } from "../api/tagsApi"
+} from "../entities/comment/api"
+import { fetchUser } from "../entities/user/api"
+import { fetchTags as fetchTagsApi } from "../entities/tag/api"
 import type { Post, User } from "../types/api"
 
 const PostsManager = () => {
