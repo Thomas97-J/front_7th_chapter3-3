@@ -1,5 +1,5 @@
 import { useAtom } from "jotai"
-import { Button } from "@/components"
+import { Button } from "@/shared/ui"
 import { Plus, ThumbsUp, Edit2, Trash2 } from "lucide-react"
 import { HighlightedText } from "@/components/shared/HighlightedText"
 import { commentsAtom, filterStateAtom } from "@/store"

@@ -1,7 +1,7 @@
 import { useEffect } from "react"
 import { useAtom, useSetAtom } from "jotai"
 import { Plus } from "lucide-react"
-import { Button, Card, CardContent, CardHeader, CardTitle } from "@/components"
+import { Button, Card, CardContent, CardHeader, CardTitle } from "@/shared/ui"
 import { SearchFilterBar } from "../components/posts/SearchFilterBar"
 import { PostTable } from "../components/posts/PostTable"
 import { PostFormDialog } from "../components/posts/PostFormDialog"

@@ -7,7 +7,7 @@ import {
   TableHeader,
   TableRow,
   Button,
-} from "@/components"
+} from "@/shared/ui"
 import { MessageSquare, Edit2, Trash2, ThumbsUp, ThumbsDown } from "lucide-react"
 import { HighlightedText } from "@/components/shared/HighlightedText"
 import { postsAtom, filterStateAtom } from "@/store"

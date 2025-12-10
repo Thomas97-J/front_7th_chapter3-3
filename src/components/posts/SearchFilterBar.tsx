@@ -1,6 +1,6 @@
 import { Search } from "lucide-react"
 import { useAtom } from "jotai"
-import { Input, Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components"
+import { Input, Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/shared/ui"
 import { filterStateAtom, tagsAtom } from "@/store"
 import type { SortByOption, SortOrderOption } from "@/types/state"
 

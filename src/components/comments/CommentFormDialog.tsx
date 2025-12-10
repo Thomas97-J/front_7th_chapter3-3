@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react"
-import { Dialog, DialogContent, DialogHeader, DialogTitle, Textarea, Button } from "@/components"
+import { Dialog, DialogContent, DialogHeader, DialogTitle, Textarea, Button } from "@/shared/ui"
 import type { Comment } from "@/types/api"
 
 interface CommentFormData {

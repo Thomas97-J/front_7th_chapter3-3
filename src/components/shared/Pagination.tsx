@@ -1,5 +1,5 @@
 import { useAtom } from "jotai"
-import { Button, Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components"
+import { Button, Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/shared/ui"
 import { filterStateAtom, totalAtom } from "@/store"
 
 export const Pagination: React.FC = () => {

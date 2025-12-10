@@ -1,4 +1,4 @@
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components"
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/shared/ui"
 import { User } from "../../types/api"
 
 interface UserInfoModalProps {

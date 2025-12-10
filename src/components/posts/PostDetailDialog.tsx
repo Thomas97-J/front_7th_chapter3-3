@@ -1,5 +1,5 @@
 import { useAtom } from "jotai"
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components"
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/shared/ui"
 import { HighlightedText } from "@/components/shared/HighlightedText"
 import { CommentList } from "@/components/comments/CommentList"
 import { filterStateAtom } from "@/store"
