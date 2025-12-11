@@ -7,13 +7,21 @@ import { useUrlSync } from "./model"
 import { usePostsQuery } from "@/features/post-list"
 import { usePostsByTagQuery } from "@/features/post-filter"
 import { useSearchPostsQuery } from "@/features/post-search"
+import { useCreatePostMutation } from "@/features/post-create"
+import { useUpdatePostMutation } from "@/features/post-update"
+import { useDeletePostMutation } from "@/features/post-delete"
+import { useCreateCommentMutation } from "@/features/comment-create"
+import { useUpdateCommentMutation } from "@/features/comment-update"
+import { useDeleteCommentMutation } from "@/features/comment-delete"
+import { useLikeCommentMutation } from "@/features/comment-like"
+import { useUserQuery } from "@/features/user-detail"
 
 // Page atoms
 import {
   filterStateAtom,
   selectedCommentAtom,
   selectedPostAtom,
-  selectedUserAtom,
+  selectedUserIdAtom,
   showAddCommentDialogAtom,
   showAddDialogAtom,
   showEditCommentDialogAtom,
@@ -21,18 +29,6 @@ import {
   showPostDetailDialogAtom,
   showUserModalAtom,
 } from "./model/atoms"
-import {
-  createPost,
-  updatePost as updatePostApi,
-  deletePost as deletePostApi,
-} from "@/entities/post/api"
-import {
-  createComment,
-  updateComment as updateCommentApi,
-  deleteComment as deleteCommentApi,
-  likeComment as likeCommentApi,
-} from "@/entities/comment/api"
-import { fetchUser } from "@/entities/user/api"
 import type { Post } from "@/entities/post/model"
 import type { User } from "@/entities/user/model"
 import { SearchFilterBar } from "@/widgets/post/SearchFilterBar"
@@ -54,21 +50,11 @@ const PostsManager = () => {
   const isSearching = !!filterState.searchQuery
   const isFiltering = !!filterState.selectedTag && !isSearching
 
-  const postsQuery = usePostsQuery(
-    filterState.skip,
-    filterState.limit,
-    !isSearching && !isFiltering
-  )
+  const postsQuery = usePostsQuery(filterState.skip, filterState.limit, !isSearching && !isFiltering)
 
-  const searchQuery = useSearchPostsQuery(
-    filterState.searchQuery,
-    isSearching
-  )
+  const searchQuery = useSearchPostsQuery(filterState.searchQuery, isSearching)
 
-  const tagQuery = usePostsByTagQuery(
-    filterState.selectedTag,
-    isFiltering
-  )
+  const tagQuery = usePostsByTagQuery(filterState.selectedTag, isFiltering)
 
   // 활성화된 쿼리의 데이터 사용
   const activeQuery = isSearching ? searchQuery : isFiltering ? tagQuery : postsQuery
@@ -76,10 +62,22 @@ const PostsManager = () => {
   const total = activeQuery.data?.total ?? 0
   const loading = activeQuery.isLoading
 
+  // Mutations
+  const createPostMutation = useCreatePostMutation()
+  const updatePostMutation = useUpdatePostMutation()
+  const deletePostMutation = useDeletePostMutation()
+  const createCommentMutation = useCreateCommentMutation()
+  const updateCommentMutation = useUpdateCommentMutation()
+  const deleteCommentMutation = useDeleteCommentMutation()
+  const likeCommentMutation = useLikeCommentMutation()
+
   // Selection Atoms
   const [selectedPost, setSelectedPost] = useAtom(selectedPostAtom)
   const [selectedComment, setSelectedComment] = useAtom(selectedCommentAtom)
-  const [selectedUser, setSelectedUser] = useAtom(selectedUserAtom)
+  const [selectedUserId, setSelectedUserId] = useAtom(selectedUserIdAtom)
+
+  // User Query
+  const userQuery = useUserQuery(selectedUserId)
 
   // Dialog Atoms
   const [showAddDialog, setShowAddDialog] = useAtom(showAddDialogAtom)
@@ -90,85 +88,77 @@ const PostsManager = () => {
   const [showUserModal, setShowUserModal] = useAtom(showUserModalAtom)
 
   // Add post
-  const handleAddPost = async (postData: { title: string; body: string; userId: number }): Promise<void> => {
-    try {
-      const newPost = await createPost(postData)
-      setPosts([newPost, ...posts])
-      setShowAddDialog(false)
-    } catch (error) {
-      console.error("게시물 추가 오류:", error)
-    }
+  const handleAddPost = (postData: { title: string; body: string; userId: number }): void => {
+    createPostMutation.mutate(postData, {
+      onSuccess: () => {
+        setShowAddDialog(false)
+      },
+    })
   }
 
   // Update post
-  const handleUpdatePost = async (postData: { title: string; body: string; userId: number }): Promise<void> => {
+  const handleUpdatePost = (postData: { title: string; body: string; userId: number }): void => {
     if (!selectedPost) return
-    try {
-      const updatedPost = await updatePostApi(selectedPost.id, postData)
-      setPosts(posts.map((post) => (post.id === updatedPost.id ? updatedPost : post)))
-      setShowEditDialog(false)
-    } catch (error) {
-      console.error("게시물 업데이트 오류:", error)
-    }
+    updatePostMutation.mutate(
+      {
+        id: selectedPost.id,
+        data: postData,
+      },
+      {
+        onSuccess: () => {
+          setShowEditDialog(false)
+        },
+      },
+    )
   }
 
   // Delete post
-  const handleDeletePost = async (id: number): Promise<void> => {
-    try {
-      await deletePostApi(id)
-      setPosts(posts.filter((post) => post.id !== id))
-    } catch (error) {
-      console.error("게시물 삭제 오류:", error)
-    }
+  const handleDeletePost = (id: number): void => {
+    deletePostMutation.mutate(id)
   }
 
   // Add comment
-  const handleAddComment = async (commentData: { body: string }): Promise<void> => {
+  const handleAddComment = (commentData: { body: string }): void => {
     if (!selectedPost?.id) return
-    try {
-      await createComment({
+    createCommentMutation.mutate(
+      {
         body: commentData.body,
         postId: selectedPost.id,
         userId: 1,
-      })
-      setShowAddCommentDialog(false)
-      // TODO: Phase 5에서 mutation으로 교체하여 자동 invalidation 처리
-    } catch (error) {
-      console.error("댓글 추가 오류:", error)
-    }
+      },
+      {
+        onSuccess: () => {
+          setShowAddCommentDialog(false)
+        },
+      },
+    )
   }
 
   // Update comment
-  const handleUpdateComment = async (commentData: { body: string }): Promise<void> => {
-    if (!selectedComment) return
-    try {
-      await updateCommentApi(selectedComment.id, commentData.body)
-      setShowEditCommentDialog(false)
-      // TODO: Phase 5에서 mutation으로 교체하여 자동 invalidation 처리
-    } catch (error) {
-      console.error("댓글 업데이트 오류:", error)
-    }
+  const handleUpdateComment = (commentData: { body: string }): void => {
+    if (!selectedComment || !selectedPost) return
+    updateCommentMutation.mutate(
+      {
+        id: selectedComment.id,
+        postId: selectedPost.id,
+        body: commentData.body,
+      },
+      {
+        onSuccess: () => {
+          setShowEditCommentDialog(false)
+        },
+      },
+    )
   }
 
   // Delete comment
-  const handleDeleteComment = async (id: number, _postId: number): Promise<void> => {
-    try {
-      await deleteCommentApi(id)
-      // TODO: Phase 5에서 mutation으로 교체하여 자동 invalidation 처리
-    } catch (error) {
-      console.error("댓글 삭제 오류:", error)
-    }
+  const handleDeleteComment = (id: number, postId: number): void => {
+    deleteCommentMutation.mutate({ id, postId })
   }
 
   // Like comment
-  const handleLikeComment = async (id: number, _postId: number): Promise<void> => {
-    try {
-      // TODO: Phase 5에서 현재 likes를 쿼리에서 가져와서 처리
-      await likeCommentApi(id, 0) // 임시: 0으로 전달
-      // TODO: Phase 5에서 mutation으로 교체하여 자동 invalidation 처리
-    } catch (error) {
-      console.error("댓글 좋아요 오류:", error)
-    }
+  const handleLikeComment = (id: number, postId: number, currentLikes: number): void => {
+    likeCommentMutation.mutate({ id, postId, currentLikes })
   }
 
   // Open post detail
@@ -179,14 +169,9 @@ const PostsManager = () => {
   }
 
   // Open user modal
-  const handleOpenUserModal = async (user: User): Promise<void> => {
-    try {
-      const userData = await fetchUser(user.id)
-      setSelectedUser(userData)
-      setShowUserModal(true)
-    } catch (error) {
-      console.error("사용자 정보 가져오기 오류:", error)
-    }
+  const handleOpenUserModal = (user: User): void => {
+    setSelectedUserId(user.id)
+    setShowUserModal(true)
   }
 
   return (
@@ -276,7 +261,15 @@ const PostsManager = () => {
       />
 
       {/* 사용자 모달 */}
-      <UserInfoModal open={showUserModal} onOpenChange={setShowUserModal} user={selectedUser} />
+      <UserInfoModal
+        open={showUserModal}
+        onOpenChange={(open) => {
+          setShowUserModal(open)
+          if (!open) setSelectedUserId(null)
+        }}
+        user={userQuery.data ?? null}
+        isLoading={userQuery.isLoading}
+      />
     </Card>
   )
 }

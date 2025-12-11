@@ -22,6 +22,7 @@ export const filterStateAtom = atom<FilterState>({
 export const selectedPostAtom = atom<Post | null>(null)
 export const selectedCommentAtom = atom<Comment | null>(null)
 export const selectedUserAtom = atom<User | null>(null)
+export const selectedUserIdAtom = atom<number | null>(null)
 
 /**
  * 다이얼로그 표시 상태 atoms

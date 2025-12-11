@@ -11,7 +11,7 @@ interface CommentListProps {
   onAddComment: (postId: number) => void
   onEditComment: (comment: Comment) => void
   onDeleteComment: (id: number, postId: number) => void
-  onLikeComment: (id: number, postId: number) => void
+  onLikeComment: (id: number, postId: number, currentLikes: number) => void
 }
 
 export const CommentList: React.FC<CommentListProps> = ({
@@ -53,7 +53,7 @@ export const CommentList: React.FC<CommentListProps> = ({
 
             {/* 액션 버튼 */}
             <div className="flex items-center space-x-1">
-              <Button variant="ghost" size="sm" onClick={() => onLikeComment(comment.id, postId)}>
+              <Button variant="ghost" size="sm" onClick={() => onLikeComment(comment.id, postId, comment.likes)}>
                 <ThumbsUp className="w-3 h-3" />
                 <span className="ml-1 text-xs">{comment.likes}</span>
               </Button>

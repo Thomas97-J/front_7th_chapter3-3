@@ -13,7 +13,7 @@ interface PostDetailDialogProps {
   onAddComment: (postId: number) => void
   onEditComment: (comment: Comment) => void
   onDeleteComment: (id: number, postId: number) => void
-  onLikeComment: (id: number, postId: number) => void
+  onLikeComment: (id: number, postId: number, currentLikes: number) => void
 }
 
 export const PostDetailDialog: React.FC<PostDetailDialogProps> = ({
