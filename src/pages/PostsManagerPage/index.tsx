@@ -7,7 +7,6 @@ import { useUrlSync } from "./model"
 // Entity atoms
 import { postsAtom, totalAtom } from "@/entities/post/model"
 import { commentsAtom } from "@/entities/comment/model"
-import { tagsAtom } from "@/entities/tag/model"
 
 // Page atoms
 import {
@@ -39,7 +38,6 @@ import {
   likeComment as likeCommentApi,
 } from "@/entities/comment/api"
 import { fetchUser } from "@/entities/user/api"
-import { fetchTags as fetchTagsApi } from "@/entities/tag/api"
 import type { Post } from "@/entities/post/model"
 import type { User } from "@/entities/user/model"
 import { SearchFilterBar } from "@/widgets/post/SearchFilterBar"
@@ -59,7 +57,6 @@ const PostsManager = () => {
   const setTotal = useSetAtom(totalAtom)
   const [filterState, setFilterState] = useAtom(filterStateAtom)
   const [comments, setComments] = useAtom(commentsAtom)
-  const setTags = useSetAtom(tagsAtom)
   const [loading, setLoading] = useAtom(loadingAtom)
 
   // Selection Atoms
@@ -251,19 +248,6 @@ const PostsManager = () => {
       console.error("사용자 정보 가져오기 오류:", error)
     }
   }
-
-  // Load tags on mount
-  useEffect(() => {
-    const loadTags = async (): Promise<void> => {
-      try {
-        const fetchedTags = await fetchTagsApi()
-        setTags(fetchedTags)
-      } catch (error) {
-        console.error("태그 가져오기 오류:", error)
-      }
-    }
-    loadTags()
-  }, [setTags])
 
   // Load posts when filter state changes
   useEffect(() => {

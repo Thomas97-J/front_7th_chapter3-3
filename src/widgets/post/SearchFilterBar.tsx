@@ -1,9 +1,9 @@
 import { Search } from "lucide-react"
 import { useAtom } from "jotai"
 import { Input, Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/shared/ui"
-import { tagsAtom } from "@/entities/tag/model"
 import { filterStateAtom } from "@/pages/PostsManagerPage/model/atoms"
 import type { SortByOption, SortOrderOption } from "@/pages/PostsManagerPage/model/types"
+import { useTagsQuery } from "@/features/tag-list"
 
 interface SearchFilterBarProps {
   onSearch: () => void
@@ -11,7 +11,7 @@ interface SearchFilterBarProps {
 
 export const SearchFilterBar: React.FC<SearchFilterBarProps> = ({ onSearch }) => {
   const [filterState, setFilterState] = useAtom(filterStateAtom)
-  const [tags] = useAtom(tagsAtom)
+  const { data: tags = [] } = useTagsQuery()
 
   const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>): void => {
     if (e.key === "Enter") {
