@@ -5,19 +5,9 @@ import { filterStateAtom } from "@/pages/PostsManagerPage/model/atoms"
 import type { SortByOption, SortOrderOption } from "@/pages/PostsManagerPage/model/types"
 import { useTagsQuery } from "@/features/tag-list"
 
-interface SearchFilterBarProps {
-  onSearch: () => void
-}
-
-export const SearchFilterBar: React.FC<SearchFilterBarProps> = ({ onSearch }) => {
+export const SearchFilterBar: React.FC = () => {
   const [filterState, setFilterState] = useAtom(filterStateAtom)
   const { data: tags = [] } = useTagsQuery()
-
-  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>): void => {
-    if (e.key === "Enter") {
-      onSearch()
-    }
-  }
 
   return (
     <div className="flex gap-4">
@@ -30,7 +20,6 @@ export const SearchFilterBar: React.FC<SearchFilterBarProps> = ({ onSearch }) =>
             className="pl-8"
             value={filterState.searchQuery}
             onChange={(e) => setFilterState({ ...filterState, searchQuery: e.target.value })}
-            onKeyPress={handleKeyPress}
           />
         </div>
       </div>

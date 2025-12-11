@@ -2,12 +2,12 @@ import { useAtom } from "jotai"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow, Button } from "@/shared/ui"
 import { MessageSquare, Edit2, Trash2, ThumbsUp, ThumbsDown } from "lucide-react"
 import { HighlightedText } from "@/shared/ui/HighlightedText"
-import { postsAtom } from "@/entities/post/model"
 import { filterStateAtom } from "@/pages/PostsManagerPage/model/atoms"
 import type { Post } from "@/entities/post/model"
 import type { User } from "@/entities/user/model"
 
 interface PostTableProps {
+  posts: Post[]
   onTagClick: (tag: string) => void
   onUserClick: (user: User) => void
   onViewDetail: (post: Post) => void
@@ -15,8 +15,7 @@ interface PostTableProps {
   onDelete: (id: number) => void
 }
 
-export const PostTable: React.FC<PostTableProps> = ({ onTagClick, onUserClick, onViewDetail, onEdit, onDelete }) => {
-  const [posts] = useAtom(postsAtom)
+export const PostTable: React.FC<PostTableProps> = ({ posts, onTagClick, onUserClick, onViewDetail, onEdit, onDelete }) => {
   const [filterState] = useAtom(filterStateAtom)
   return (
     <Table>

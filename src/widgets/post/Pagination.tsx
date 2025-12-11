@@ -1,11 +1,13 @@
 import { useAtom } from "jotai"
 import { Button, Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/shared/ui"
-import { totalAtom } from "@/entities/post/model"
 import { filterStateAtom } from "@/pages/PostsManagerPage/model/atoms"
 
-export const Pagination: React.FC = () => {
+interface PaginationProps {
+  total: number
+}
+
+export const Pagination: React.FC<PaginationProps> = ({ total }) => {
   const [filterState, setFilterState] = useAtom(filterStateAtom)
-  const [total] = useAtom(totalAtom)
 
   const handlePageChange = (direction: "prev" | "next") => {
     if (direction === "prev") {

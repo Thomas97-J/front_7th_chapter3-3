@@ -2,7 +2,7 @@ import { useAtom } from "jotai"
 import { Button } from "@/shared/ui"
 import { Plus, ThumbsUp, Edit2, Trash2 } from "lucide-react"
 import { HighlightedText } from "@/shared/ui/HighlightedText"
-import { commentsAtom } from "@/entities/comment/model"
+import { useCommentsQuery } from "@/features/comment-list"
 import { filterStateAtom } from "@/pages/PostsManagerPage/model/atoms"
 import type { Comment } from "@/entities/comment/model"
 
@@ -21,10 +21,13 @@ export const CommentList: React.FC<CommentListProps> = ({
   onDeleteComment,
   onLikeComment,
 }) => {
-  const [commentsState] = useAtom(commentsAtom)
+  const { data: comments = [], isLoading } = useCommentsQuery(postId)
   const [filterState] = useAtom(filterStateAtom)
 
-  const comments = commentsState[postId] || []
+  if (isLoading) {
+    return <div className="mt-2 text-sm text-center">댓글 로딩 중...</div>
+  }
+
   return (
     <div className="mt-2">
       {/* 헤더 */}
