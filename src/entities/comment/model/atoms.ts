@@ -1,6 +1,0 @@
-import { atom } from "jotai"
-import type { Comment } from "./types"
-
-export type CommentsState = Record<number, Comment[]>
-
-export const commentsAtom = atom<CommentsState>({})
