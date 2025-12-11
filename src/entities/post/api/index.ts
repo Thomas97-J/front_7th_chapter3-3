@@ -23,19 +23,6 @@ export const fetchPosts = async (limit: number, skip: number): Promise<{ posts: 
 }
 
 /**
- * 게시물 검색
- */
-export const searchPosts = async (query: string): Promise<{ posts: Post[]; total: number }> => {
-  const response = await fetch(`/api/posts/search?q=${query}`)
-  const data: PostsApiResponse = await response.json()
-
-  return {
-    posts: data.posts,
-    total: data.total,
-  }
-}
-
-/**
  * 태그별 게시물 조회
  */
 export const fetchPostsByTag = async (tag: string): Promise<{ posts: Post[]; total: number }> => {

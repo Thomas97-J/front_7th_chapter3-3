@@ -25,12 +25,12 @@ import {
 } from "./model/atoms"
 import {
   fetchPosts,
-  searchPosts as searchPostsApi,
   fetchPostsByTag as fetchPostsByTagApi,
   createPost,
   updatePost as updatePostApi,
   deletePost as deletePostApi,
 } from "@/entities/post/api"
+import { searchPosts as searchPostsApi } from "@/features/post-search"
 import {
   fetchComments as fetchCommentsApi,
   createComment,
