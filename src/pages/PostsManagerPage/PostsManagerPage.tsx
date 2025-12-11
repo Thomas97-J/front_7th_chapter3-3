@@ -2,14 +2,8 @@ import { useEffect } from "react"
 import { useAtom, useSetAtom } from "jotai"
 import { Plus } from "lucide-react"
 import { Button, Card, CardContent, CardHeader, CardTitle } from "@/shared/ui"
-import { SearchFilterBar } from "../widgets/post/SearchFilterBar"
-import { PostTable } from "../widgets/post/PostTable"
-import { PostFormDialog } from "../widgets/post/PostFormDialog"
-import { PostDetailDialog } from "../widgets/post/PostDetailDialog"
-import { CommentFormDialog } from "../widgets/comment/CommentFormDialog"
-import { UserInfoModal } from "../widgets/user/UserInfoModal"
-import { Pagination } from "../widgets/post/Pagination"
-import { useUrlSync } from "../hooks/useUrlSync"
+
+import { useUrlSync } from "./model"
 import {
   postsAtom,
   totalAtom,
@@ -26,7 +20,7 @@ import {
   showEditCommentDialogAtom,
   showPostDetailDialogAtom,
   showUserModalAtom,
-} from "../store"
+} from "../../store"
 import {
   fetchPosts,
   searchPosts as searchPostsApi,
@@ -34,17 +28,25 @@ import {
   createPost,
   updatePost as updatePostApi,
   deletePost as deletePostApi,
-} from "../entities/post/api"
+} from "@/entities/post/api"
 import {
   fetchComments as fetchCommentsApi,
   createComment,
   updateComment as updateCommentApi,
   deleteComment as deleteCommentApi,
   likeComment as likeCommentApi,
-} from "../entities/comment/api"
-import { fetchUser } from "../entities/user/api"
-import { fetchTags as fetchTagsApi } from "../entities/tag/api"
-import type { Post, User } from "../types/api"
+} from "@/entities/comment/api"
+import { fetchUser } from "@/entities/user/api"
+import { fetchTags as fetchTagsApi } from "@/entities/tag/api"
+import type { Post } from "@/entities/post/model"
+import type { User } from "@/entities/user/model"
+import { SearchFilterBar } from "@/widgets/post/SearchFilterBar"
+import { PostTable } from "@/widgets/post/PostTable"
+import { Pagination } from "@/widgets/post/Pagination"
+import { PostFormDialog } from "@/widgets/post/PostFormDialog"
+import { CommentFormDialog } from "@/widgets/comment/CommentFormDialog"
+import { PostDetailDialog } from "@/widgets/post/PostDetailDialog"
+import { UserInfoModal } from "@/widgets/user/UserInfoModal"
 
 const PostsManager = () => {
   // URL 동기화

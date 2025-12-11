@@ -1,5 +1,5 @@
+import { User } from "@/entities/user/model"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/shared/ui"
-import { User } from "../../types/api"
 
 interface UserInfoModalProps {
   open: boolean

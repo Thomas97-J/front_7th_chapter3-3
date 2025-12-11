@@ -1,5 +1,3 @@
-import type { Comment } from "./api"
-
 // 정렬 옵션
 export type SortByOption = "" | "none" | "id" | "title" | "reactions"
 export type SortOrderOption = "asc" | "desc"
@@ -8,8 +6,6 @@ export type PageLimit = 10 | 20 | 30
 export const PAGE_LIMITS: PageLimit[] = [10, 20, 30]
 
 // 상태 타입
-export type CommentsState = Record<number, Comment[]>
-
 export interface NewPostState {
   title: string
   body: string

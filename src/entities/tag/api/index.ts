@@ -1,4 +1,4 @@
-import type { Tag } from "@/types/api"
+import type { Tag } from "../model/types"
 
 /**
  * 태그 목록 조회

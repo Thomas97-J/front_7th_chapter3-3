@@ -1,4 +1,5 @@
-import type { Post, PostsApiResponse, UsersApiResponse } from "@/types/api"
+import type { Post, PostsApiResponse } from "../model/types"
+import type { UsersApiResponse } from "@/entities/user/model"
 
 /**
  * 게시물 목록 조회 (사용자 정보 포함)

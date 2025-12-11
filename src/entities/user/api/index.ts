@@ -1,4 +1,4 @@
-import type { User } from "@/types/api"
+import type { User } from "../model/types"
 
 /**
  * 사용자 상세 정보 조회

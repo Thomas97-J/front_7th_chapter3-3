@@ -3,7 +3,8 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow, Button }
 import { MessageSquare, Edit2, Trash2, ThumbsUp, ThumbsDown } from "lucide-react"
 import { HighlightedText } from "@/shared/ui/HighlightedText"
 import { postsAtom, filterStateAtom } from "@/store"
-import type { Post, User } from "@/types/api"
+import type { Post } from "@/entities/post/model"
+import type { User } from "@/entities/user/model"
 
 interface PostTableProps {
   onTagClick: (tag: string) => void

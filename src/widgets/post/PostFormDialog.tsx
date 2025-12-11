@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, Input, Textarea, Button } from "@/shared/ui"
-import type { Post } from "@/types/api"
+import type { Post } from "@/entities/post/model"
 
 interface PostFormData {
   title: string

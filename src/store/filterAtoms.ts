@@ -1,5 +1,5 @@
 import { atom } from "jotai"
-import type { SortByOption, SortOrderOption } from "@/types/state"
+import type { SortByOption, SortOrderOption } from "@/pages/PostsManagerPage/model/types"
 
 export interface FilterState {
   skip: number

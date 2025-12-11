@@ -3,7 +3,7 @@ import { Button } from "@/shared/ui"
 import { Plus, ThumbsUp, Edit2, Trash2 } from "lucide-react"
 import { HighlightedText } from "@/shared/ui/HighlightedText"
 import { commentsAtom, filterStateAtom } from "@/store"
-import type { Comment } from "@/types/api"
+import type { Comment } from "@/entities/comment/model"
 
 interface CommentListProps {
   postId: number

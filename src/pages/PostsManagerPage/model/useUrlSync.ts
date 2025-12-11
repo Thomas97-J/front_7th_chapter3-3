@@ -2,7 +2,7 @@ import { useEffect, useRef } from "react"
 import { useNavigate, useLocation } from "react-router-dom"
 import { useAtom } from "jotai"
 import { filterStateAtom } from "@/store"
-import type { SortByOption, SortOrderOption } from "@/types/state"
+import type { SortByOption, SortOrderOption } from "./types"
 
 /**
  * URL 쿼리 파라미터와 filterState atom을 동기화하는 hook

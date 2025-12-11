@@ -1,6 +1,8 @@
 import { atom } from "jotai"
-import type { Post, Tag, Comment } from "@/types/api"
-import type { CommentsState } from "@/types/state"
+import type { Post } from "@/entities/post/model"
+import type { Comment } from "@/entities/comment/model"
+import type { Tag } from "@/entities/tag/model"
+import type { CommentsState } from "./types"
 
 /**
  * 게시물 목록 atom

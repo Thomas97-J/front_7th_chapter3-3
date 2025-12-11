@@ -1,4 +1,4 @@
-import type { Comment } from "@/types/api"
+import type { Comment } from "../model/types"
 
 /**
  * 특정 게시물의 댓글 목록 조회

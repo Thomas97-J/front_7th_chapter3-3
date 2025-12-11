@@ -2,7 +2,7 @@ import { Search } from "lucide-react"
 import { useAtom } from "jotai"
 import { Input, Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/shared/ui"
 import { filterStateAtom, tagsAtom } from "@/store"
-import type { SortByOption, SortOrderOption } from "@/types/state"
+import type { SortByOption, SortOrderOption } from "@/pages/PostsManagerPage/model/types"
 
 interface SearchFilterBarProps {
   onSearch: () => void

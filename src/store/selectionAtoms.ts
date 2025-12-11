@@ -1,5 +1,7 @@
 import { atom } from "jotai"
-import type { Post, User, Comment } from "@/types/api"
+import type { Post } from "@/entities/post/model"
+import type { Comment } from "@/entities/comment/model"
+import type { User } from "@/entities/user/model"
 
 /**
  * 선택된 항목 atoms
