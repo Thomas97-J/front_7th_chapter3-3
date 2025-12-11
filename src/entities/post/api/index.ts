@@ -1,3 +1,5 @@
+declare const __API_BASE_URL__: string
+
 import type { Post, PostsApiResponse } from "../model/types"
 import type { UsersApiResponse } from "@/entities/user/model"
 
@@ -5,10 +7,10 @@ import type { UsersApiResponse } from "@/entities/user/model"
  * 게시물 목록 조회 (사용자 정보 포함)
  */
 export const fetchPosts = async (limit: number, skip: number): Promise<{ posts: Post[]; total: number }> => {
-  const postsResponse = await fetch(`/api/posts?limit=${limit}&skip=${skip}`)
+  const postsResponse = await fetch(`${__API_BASE_URL__}/posts?limit=${limit}&skip=${skip}`)
   const postsData: PostsApiResponse = await postsResponse.json()
 
-  const usersResponse = await fetch("/api/users?limit=0&select=username,image")
+  const usersResponse = await fetch(`${__API_BASE_URL__}/users?limit=0&select=username,image`)
   const usersData: UsersApiResponse = await usersResponse.json()
 
   const postsWithUsers: Post[] = postsData.posts.map((post) => ({
@@ -27,8 +29,8 @@ export const fetchPosts = async (limit: number, skip: number): Promise<{ posts: 
  */
 export const fetchPostsByTag = async (tag: string): Promise<{ posts: Post[]; total: number }> => {
   const [postsResponse, usersResponse] = await Promise.all([
-    fetch(`/api/posts/tag/${tag}`),
-    fetch("/api/users?limit=0&select=username,image"),
+    fetch(`${__API_BASE_URL__}/posts/tag/${tag}`),
+    fetch(`${__API_BASE_URL__}/users?limit=0&select=username,image`),
   ])
 
   const postsData: PostsApiResponse = await postsResponse.json()
@@ -49,7 +51,7 @@ export const fetchPostsByTag = async (tag: string): Promise<{ posts: Post[]; tot
  * 게시물 생성
  */
 export const createPost = async (postData: { title: string; body: string; userId: number }): Promise<Post> => {
-  const response = await fetch("/api/posts/add", {
+  const response = await fetch(`${__API_BASE_URL__}/posts/add`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(postData),
@@ -61,7 +63,7 @@ export const createPost = async (postData: { title: string; body: string; userId
  * 게시물 수정
  */
 export const updatePost = async (id: number, postData: Partial<Post>): Promise<Post> => {
-  const response = await fetch(`/api/posts/${id}`, {
+  const response = await fetch(`${__API_BASE_URL__}/posts/${id}`, {
     method: "PUT",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(postData),
@@ -73,7 +75,7 @@ export const updatePost = async (id: number, postData: Partial<Post>): Promise<P
  * 게시물 삭제
  */
 export const deletePost = async (id: number): Promise<void> => {
-  await fetch(`/api/posts/${id}`, {
+  await fetch(`${__API_BASE_URL__}/posts/${id}`, {
     method: "DELETE",
   })
 }
