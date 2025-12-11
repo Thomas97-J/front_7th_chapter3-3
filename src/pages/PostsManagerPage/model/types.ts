@@ -24,3 +24,13 @@ export interface SearchState {
   sortBy: SortByOption
   sortOrder: SortOrderOption
 }
+
+// 필터/페이지네이션 상태 타입
+export interface FilterState {
+  skip: number
+  limit: number
+  searchQuery: string
+  selectedTag: string
+  sortBy: SortByOption
+  sortOrder: SortOrderOption
+}

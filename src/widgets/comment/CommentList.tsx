@@ -2,7 +2,8 @@ import { useAtom } from "jotai"
 import { Button } from "@/shared/ui"
 import { Plus, ThumbsUp, Edit2, Trash2 } from "lucide-react"
 import { HighlightedText } from "@/shared/ui/HighlightedText"
-import { commentsAtom, filterStateAtom } from "@/store"
+import { commentsAtom } from "@/entities/comment/model"
+import { filterStateAtom } from "@/pages/PostsManagerPage/model/atoms"
 import type { Comment } from "@/entities/comment/model"
 
 interface CommentListProps {

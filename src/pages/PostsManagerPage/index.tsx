@@ -4,23 +4,25 @@ import { Plus } from "lucide-react"
 import { Button, Card, CardContent, CardHeader, CardTitle } from "@/shared/ui"
 
 import { useUrlSync } from "./model"
+// Entity atoms
+import { postsAtom, totalAtom } from "@/entities/post/model"
+import { commentsAtom } from "@/entities/comment/model"
+import { tagsAtom } from "@/entities/tag/model"
+
+// Page atoms
 import {
-  postsAtom,
-  totalAtom,
   filterStateAtom,
-  commentsAtom,
-  tagsAtom,
   loadingAtom,
-  selectedPostAtom,
   selectedCommentAtom,
+  selectedPostAtom,
   selectedUserAtom,
-  showAddDialogAtom,
-  showEditDialogAtom,
   showAddCommentDialogAtom,
+  showAddDialogAtom,
   showEditCommentDialogAtom,
+  showEditDialogAtom,
   showPostDetailDialogAtom,
   showUserModalAtom,
-} from "../../store"
+} from "./model/atoms"
 import {
   fetchPosts,
   searchPosts as searchPostsApi,

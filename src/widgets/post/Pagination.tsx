@@ -1,6 +1,7 @@
 import { useAtom } from "jotai"
 import { Button, Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/shared/ui"
-import { filterStateAtom, totalAtom } from "@/store"
+import { totalAtom } from "@/entities/post/model"
+import { filterStateAtom } from "@/pages/PostsManagerPage/model/atoms"
 
 export const Pagination: React.FC = () => {
   const [filterState, setFilterState] = useAtom(filterStateAtom)

@@ -1,7 +1,8 @@
 import { Search } from "lucide-react"
 import { useAtom } from "jotai"
 import { Input, Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/shared/ui"
-import { filterStateAtom, tagsAtom } from "@/store"
+import { tagsAtom } from "@/entities/tag/model"
+import { filterStateAtom } from "@/pages/PostsManagerPage/model/atoms"
 import type { SortByOption, SortOrderOption } from "@/pages/PostsManagerPage/model/types"
 
 interface SearchFilterBarProps {

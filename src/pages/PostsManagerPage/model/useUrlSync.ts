@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react"
 import { useNavigate, useLocation } from "react-router-dom"
 import { useAtom } from "jotai"
-import { filterStateAtom } from "@/store"
+import { filterStateAtom } from "./atoms"
 import type { SortByOption, SortOrderOption } from "./types"
 
 /**

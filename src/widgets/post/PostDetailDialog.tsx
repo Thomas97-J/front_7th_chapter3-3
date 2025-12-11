@@ -2,7 +2,7 @@ import { useAtom } from "jotai"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/shared/ui"
 import { HighlightedText } from "@/shared/ui/HighlightedText"
 import { CommentList } from "@/widgets/comment/CommentList"
-import { filterStateAtom } from "@/store"
+import { filterStateAtom } from "@/pages/PostsManagerPage/model/atoms"
 import type { Post } from "@/entities/post/model"
 import type { Comment } from "@/entities/comment/model"
 
